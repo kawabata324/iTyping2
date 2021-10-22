@@ -5,7 +5,7 @@ import HelloWorld from '@/components/HelloWorld.vue';
       <div class="text-white">
         <span class="text-green-500">Typinguser@TypingusernoMacBookMax</span>
         <span>:</span>
-        <span class="text-blue-500 px-2">~</span><br />
+        <span class="text-blue-300 px-2">~</span><br />
         <div class="flex">
           <label for="comand" class="w-4">$</label>
           <input
@@ -20,7 +20,7 @@ import HelloWorld from '@/components/HelloWorld.vue';
         <p v-show="!collectCommand" class="text-red-500">Error:Please type 'cd TypingGame'</p>
         <p>
           Hello World !<br />
-          If you want to start the game , You type 'cd TypingGame' after $ and
+          If you want to start the game , You type '<span class="text-blue-500">cd TypingGame</span>' after $ and
           press enter.
         </p>
       </div>
@@ -56,3 +56,8 @@ export default {
   },
 };
 </script>
+<style scoped>
+  input:focus{
+    outline:none;
+  }
+</style>
