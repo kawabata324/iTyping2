@@ -20,7 +20,7 @@
         <p>
           {{ TypingCommandRef }}
         </p>
-        <p v-show="clearGameRef">          If you want to end game , You type '<span class="text-blue-500">cd commandExplanation</span>' after $ and
+        <p v-show="clearGameRef">{{ messageRef }}<span class="text-blue-500">{{ messageRef2 }}</span>' after $ and
           press enter.</p>
         <p>
           <span class="text-blue-500 mr-6">Your Clear Command Count:</span>{{ClearCountRef}}/{{ TypingCommands.length }}
@@ -44,6 +44,8 @@ import { onMounted } from '@vue/runtime-core'
       const TypingCommandRef=ref('')
       const inputCommandRef = ref('');
       const collectCommand =ref(true)
+      let messageRef=ref("")
+      let messageRef2=ref("")
       let TypingCommands=reactive([
         {id:1,name:'cd Documents'},
         {id:2,name:'git status'},
@@ -68,6 +70,7 @@ import { onMounted } from '@vue/runtime-core'
       const RandomCommand=()=>{
         if(!TypingCommands.length){
           TypingCommandRef.value='TypingGame successfully !'
+          typeWriter()
           clearGameRef.value=true
           clearInterval(IntervalId)
           return
@@ -92,6 +95,22 @@ import { onMounted } from '@vue/runtime-core'
       const CountUp=()=>{
         TimerRef.value++
       }
+      const typeWriter=()=>{
+      let i=0
+      let i2=0
+      setInterval(()=>{
+        let message="If you want to end game , You type '"
+        let message2="cd commandExplanation"
+        if(i<message.length){
+          messageRef.value+=message.charAt(i)
+          i++
+        }
+        else if(i2<message2.length){
+          messageRef2.value+=message2.charAt(i2)
+          i2++
+        }
+      },100)
+    }
       onMounted(
         ()=>{
           RandomCommand()
@@ -110,7 +129,10 @@ import { onMounted } from '@vue/runtime-core'
         TimerRef,
         CountUp,
         IntervalId,
-        clearGameRef
+        clearGameRef,
+        typeWriter,
+        messageRef,
+        messageRef2
       }
     }
   }
