@@ -60,9 +60,9 @@ export default {
       // { id: 2, name: "git status" },
       // { id: 3, name: "git add ." },
       {id:4,name:"git commit -m 'comment'"},
-      // {id:5,name:'git checkout -b branchName'},
+      {id:5,name:'git checkout -b branchName'},
       // {id:6,name:'git fetch'},
-      // {id:7,name:'git pull origin develop'},
+      {id:7,name:'git pull origin develop'},
       // {id:8,name:'git branch -a'},
       // {id:9,name:'git push origin branchName'},
       // {id:10,name:'yarn serve'},
@@ -158,8 +158,7 @@ export default {
         ResponsemsgRef.value=""
       }
       if (id === 2) {
-        ResponsemsgRef.value =
-`On branch develop
+        ResponsemsgRef.value =`On branch develop
 Your branch is up to date with 'origin/develop'.
 
 Changes not staged for commit:
@@ -174,10 +173,30 @@ no changes added to commit (use "git add" and/or "git commit -a")`;
         ResponsemsgRef.value = "";
       }
       if (id===4){
-        ResponsemsgRef.value=
-`[main fc2e1fa] comment
+        ResponsemsgRef.value=`[main fc2e1fa] comment
 2 files changed, 255 insertions(+), 199 deletions(-)
 rewrite src/views/Game.vue (79%)`
+      }
+      if(id===5){
+        ResponsemsgRef.value=`Switched to a new branch 'branchName'`
+      }
+      if(id===7){
+        ResponsemsgRef.value=`Enumerating objects: 11, done.
+Counting objects: 100% (11/11), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (6/6), done.
+Writing objects: 100% (6/6), 2.82 KiB | 2.82 MiB/s, done.
+Total 6 (delta 3), reused 0 (delta 0), pack-reused 0
+remote: Resolving deltas: 100% (3/3), completed with 3 local objects.
+To https://github.com/kawabata324/iTyping2.git
+  fa29aef..fc2e1fa  develop -> develop`
+      }
+      if(id===8){
+        ResponsemsgRef.value=`
+  develop
+* main
+  remotes/origin/develop
+  remotes/origin/main`
       }
     };
     onMounted(() => {
