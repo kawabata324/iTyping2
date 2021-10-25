@@ -56,7 +56,7 @@ export default {
     let messageRef3 = ref("");
     let ResponsemsgRef = ref("");
     let TypingCommands = reactive([
-      // { id: 1, name: "cd ~" },
+      { id: 1, name: "cd ~" },
       // { id: 2, name: "git status" },
       // { id: 3, name: "git add ." },
       {id:4,name:"git commit -m 'comment'"},
@@ -65,14 +65,14 @@ export default {
       {id:7,name:'git pull origin develop'},
       // {id:8,name:'git branch -a'},
       // {id:9,name:'git push origin branchName'},
-      // {id:10,name:'yarn serve'},
+      {id:10,name:'yarn serve'},
       // {id:11,name:'npm run serve'},
       // {id:12,name:'mkdir directoryName'},
       // {id:13,name:'git diff'},
       // {id:14,name:'git fetch --prune'},
       // {id:15,name:'git branch -d branchName'},
       // {id:16,name:'git merge origin develop'},
-      // {id:17,name:'pwd'},
+      {id:17,name:'pwd'},
       // {id:18,name:'code .'},
       // {id:19,name:'vue create typing-game'}
     ]);
@@ -158,7 +158,7 @@ export default {
         ResponsemsgRef.value=""
       }
       if (id === 2) {
-        ResponsemsgRef.value =`On branch develop
+ResponsemsgRef.value =`On branch develop
 Your branch is up to date with 'origin/develop'.
 
 Changes not staged for commit:
@@ -178,10 +178,10 @@ no changes added to commit (use "git add" and/or "git commit -a")`;
 rewrite src/views/Game.vue (79%)`
       }
       if(id===5){
-        ResponsemsgRef.value=`Switched to a new branch 'branchName'`
+ResponsemsgRef.value=`Switched to a new branch 'branchName'`
       }
       if(id===7){
-        ResponsemsgRef.value=`Enumerating objects: 11, done.
+ResponsemsgRef.value=`Enumerating objects: 11, done.
 Counting objects: 100% (11/11), done.
 Delta compression using up to 8 threads
 Compressing objects: 100% (6/6), done.
@@ -192,11 +192,39 @@ To https://github.com/kawabata324/iTyping2.git
   fa29aef..fc2e1fa  develop -> develop`
       }
       if(id===8){
-        ResponsemsgRef.value=`
+ResponsemsgRef.value=`
   develop
 * main
   remotes/origin/develop
   remotes/origin/main`
+      }
+      if(id===9){
+ResponsemsgRef.value=`[main 68e575c] comment
+1 file changed, 25 insertions(+), 6 deletions(-)`
+      }
+      if(id===10||id===11){
+ResponsemsgRef.value=`$ vue-cli-service serve
+INFO  Starting development server...
+98% after emitting CopyPlugin
+
+DONE  Compiled successfully in 3307ms
+  App running at:
+  - Local:   http://localhost:8080/
+  - Network: unavailable
+
+  Note that the development build is not optimized.
+  To create a production build, run npm run build.`
+      }
+      if(id===13){
+        ResponsemsgRef=``
+      }
+      if(id===17){
+        if(PathRef.value==='~/TypingGame'){
+ResponsemsgRef.value=`/Users/TypingUser/TypingGame`
+        }
+        if(PathRef.value==='~'){
+ResponsemsgRef.value=`/Users/TypingUser`
+        }
       }
     };
     onMounted(() => {
