@@ -4,7 +4,7 @@
       <div class="text-white">
         <span class="text-green-500">Typinguser@TypingusernoMacBookMax</span>
         <span>:</span>
-        <span class="text-blue-300 px-2">~/TypingGame</span><br />
+        <span class="text-blue-300 px-2">{{PathRef}}</span><br />
         <div class="flex">
           <label for="command" class="w-4">$</label>
           <input
@@ -50,15 +50,16 @@ export default {
     const TypingCommandRef = ref("");
     const inputCommandRef = ref("");
     const collectCommand = ref(true);
+    let PathRef=ref("~/TypingGame")
     let messageRef = ref("");
     let messageRef2 = ref("");
     let messageRef3 = ref("");
-    let ResponsemsgRef = ref("")
+    let ResponsemsgRef = ref("");
     let TypingCommands = reactive([
-      { id: 1, name: "cd Documents" },
-      { id: 2, name: "git status" },
-      {id:3,name:'git add .'},
-      // {id:4,name:"git commit -m 'comment'"},
+      // { id: 1, name: "cd ~" },
+      // { id: 2, name: "git status" },
+      // { id: 3, name: "git add ." },
+      {id:4,name:"git commit -m 'comment'"},
       // {id:5,name:'git checkout -b branchName'},
       // {id:6,name:'git fetch'},
       // {id:7,name:'git pull origin develop'},
@@ -75,27 +76,27 @@ export default {
       // {id:18,name:'code .'},
       // {id:19,name:'vue create typing-game'}
     ]);
-    let CopyCommands=reactive([
-      { id: 1, name: "cd Documents" },
+    let CopyCommands = reactive([
+      { id: 1, name: "cd ~" },
       { id: 2, name: "git status" },
-      {id:3,name:'git add .'},
-      {id:4,name:"git commit -m 'comment'"},
-      {id:5,name:'git checkout -b branchName'},
-      {id:6,name:'git fetch'},
-      {id:7,name:'git pull origin develop'},
-      {id:8,name:'git branch -a'},
-      {id:9,name:'git push origin branchName'},
-      {id:10,name:'yarn serve'},
-      {id:11,name:'npm run serve'},
-      {id:12,name:'mkdir directoryName'},
-      {id:13,name:'git diff'},
-      {id:14,name:'git fetch --prune'},
-      {id:15,name:'git branch -d branchName'},
-      {id:16,name:'git merge origin develop'},
-      {id:17,name:'pwd'},
-      {id:18,name:'code .'},
-      {id:19,name:'vue create typing-game'}
-    ])
+      { id: 3, name: "git add ." },
+      { id: 4, name: "git commit -m 'comment'" },
+      { id: 5, name: "git checkout -b branchName" },
+      { id: 6, name: "git fetch" },
+      { id: 7, name: "git pull origin develop" },
+      { id: 8, name: "git branch -a" },
+      { id: 9, name: "git push origin branchName" },
+      { id: 10, name: "yarn serve" },
+      { id: 11, name: "npm run serve" },
+      { id: 12, name: "mkdir directoryName" },
+      { id: 13, name: "git diff" },
+      { id: 14, name: "git fetch --prune" },
+      { id: 15, name: "git branch -d branchName" },
+      { id: 16, name: "git merge origin develop" },
+      { id: 17, name: "pwd" },
+      { id: 18, name: "code ." },
+      { id: 19, name: "vue create typing-game" },
+    ]);
 
     const RandomCommand = () => {
       if (!TypingCommands.length) {
@@ -114,8 +115,10 @@ export default {
     };
     const Useranswer = () => {
       if (inputCommandRef.value === TypingCommandRef.value) {
-        let selectCommand=CopyCommands.find(CopyCommand=>CopyCommand.name===inputCommandRef.value)
-        changeResponsemsg(selectCommand.id)
+        let selectCommand = CopyCommands.find(
+          (CopyCommand) => CopyCommand.name === inputCommandRef.value
+        );
+        changeResponsemsg(selectCommand.id);
         RandomCommand();
         inputCommandRef.value = "";
         ClearCountRef.value++;
@@ -149,9 +152,13 @@ export default {
         }
       }, 100);
     };
-    const changeResponsemsg=(id)=>{
-      if(id===2){
-        ResponsemsgRef.value=
+    const changeResponsemsg = (id) => {
+      if(id===1){
+        PathRef.value="~"
+        ResponsemsgRef.value=""
+      }
+      if (id === 2) {
+        ResponsemsgRef.value =
 `On branch develop
 Your branch is up to date with 'origin/develop'.
 
@@ -161,12 +168,18 @@ Changes not staged for commit:
   modified:   src/views/Game.vue
   modified:   src/views/Home.vue
 
-no changes added to commit (use "git add" and/or "git commit -a")`
+no changes added to commit (use "git add" and/or "git commit -a")`;
       }
-      if(id===3){
-        ResponsemsgRef.value=''
+      if (id === 3) {
+        ResponsemsgRef.value = "";
       }
-    }
+      if (id===4){
+        ResponsemsgRef.value=
+`[main fc2e1fa] comment
+2 files changed, 255 insertions(+), 199 deletions(-)
+rewrite src/views/Game.vue (79%)`
+      }
+    };
     onMounted(() => {
       RandomCommand();
       // IntervalId=setInterval(CountUp,1000)
@@ -190,7 +203,8 @@ no changes added to commit (use "git add" and/or "git commit -a")`
       messageRef3,
       ResponsemsgRef,
       changeResponsemsg,
-      CopyCommands
+      CopyCommands,
+      PathRef,
     };
   },
 };
