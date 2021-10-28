@@ -75,7 +75,7 @@ export default {
       // { id: 13, name: "git diff" },
       // { id: 14, name: "git fetch --prune" },
       // { id: 15, name: "git branch -D branchName" },
-      // { id: 16, name: "git merge origin develop" },
+      // { id: 16, name: "git merge develop" },
       // { id: 17, name: "pwd" },
       // { id: 18, name: "code ." },
       // { id: 19, name: "vue create typing-game" },
@@ -96,7 +96,7 @@ export default {
       { id: 13, name: "git diff" },
       { id: 14, name: "git fetch --prune" },
       { id: 15, name: "git branch -d branchName" },
-      { id: 16, name: "git merge origin develop" },
+      { id: 16, name: "git merge develop" },
       { id: 17, name: "pwd" },
       { id: 18, name: "code ." },
       { id: 19, name: "vue create typing-game" },
@@ -280,6 +280,14 @@ Unpacking objects: 100% (27/27), 69.18 KiB | 1.15 MiB/s, done.
       }
       if(id === 15){
         ResponsemsgRef.value=`Deleted branch branchName (was 21393434)`
+      }
+      if(id===16){
+        ResponsemsgRef.value=` src/router/index.js              |   5 +++++
+src/views/CommandExplanation.vue |  59 ++++++++++++++++++++++++++++++++++++++++++++++++++
+src/views/Game.vue               | 195 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-----------------------------------
+src/views/Home.vue               |  40 ++++++++++++++++------------------
+4 files changed, 236 insertions(+), 63 deletions(-)
+create mode 100644 src/views/CommandExplanation.vue`
       }
       if (id === 17) {
         if (PathRef.value === "~/TypingGame") {
