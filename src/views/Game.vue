@@ -38,15 +38,15 @@
     </div>
   </div>
 </template>
-<script>
+<script lang="ts">
 import { reactive, ref } from "@vue/reactivity";
-import { onMounted, watchEffect, watch } from "@vue/runtime-core";
+import { onMounted, watchEffect, watch, defineComponent } from "@vue/runtime-core";
 import { useRouter } from "vue-router";
 
-export default {
+export default defineComponent({
   setup() {
     const router = useRouter();
-    let IntervalId = ref("");
+    let IntervalId = ref(null);
     let ClearCountRef = ref(0);
     let TimerRef = ref(0);
     let clearGameRef = ref(false);
@@ -197,7 +197,7 @@ DONE  Compiled successfully in 3307ms
         ResponsemsgRef.value = ``;
       }
       if (id === 13) {
-        ResponsemsgRef = `diff --git a/src/router/index.js b/src/router/index.js
+        ResponsemsgRef.value = `diff --git a/src/router/index.js b/src/router/index.js
   index 12a3ef3..0c9b5a7 100644
   --- a/src/router/index.js
   +++ b/src/router/index.js
@@ -325,9 +325,9 @@ Run 'npm audit' for details.
       }
     });
     watch(inputCommandRef, () => {
-      const audio = new Audio(require("@/assets/sounds/nc159115.mp3"));
-      audio.currentTime = 0;
-      audio.play();
+      // const audio = new Audio(import("@/assets/sounds/nc159115.mp3"));
+      // audio.currentTime = 0;
+      // audio.play();
     });
     return {
       Useranswer,
@@ -349,7 +349,7 @@ Run 'npm audit' for details.
       typeWriter,
     };
   },
-};
+});
 </script>
 <style scoped>
 input {

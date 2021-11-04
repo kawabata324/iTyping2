@@ -26,17 +26,18 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { ref } from "@vue/reactivity";
 import { useRouter } from "vue-router";
-import { watch } from "@vue/runtime-core";
-import TypeWriter from "@/components/common/TypeWriter.vue"
-export default {
+import { defineComponent, watch } from "@vue/runtime-core";
+import TypeWriter from "../components/common/TypeWriter.vue"
+export default defineComponent({
   name: "Home",
   components:{
     TypeWriter
   },
   setup() {
+    // const musicPath=require('@/assets/sounds/nc159115.mp3')
     const router = useRouter();
     const inputCommandRef = ref("");
     const messageRef = ref(`
@@ -53,9 +54,9 @@ export default {
       }
     };
     watch(inputCommandRef,()=>{
-      const audio=new Audio(require('@/assets/sounds/nc159115.mp3'))
-      audio.currentTime=0
-      audio.play()
+      // const audio=new Audio('../assets/sounds/nc159115.mp3')
+      // audio.currentTime=0
+      // audio.play()
     })
     return {
       Useranswer,
@@ -64,7 +65,7 @@ export default {
       messageRef,
     };
   },
-};
+});
 </script>
 <style scoped>
 input:focus {

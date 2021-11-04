@@ -5,8 +5,8 @@
 </template>
 
 <script>
-import{ref,onMounted,} from 'vue'
-export default {
+import{ref,onMounted, defineComponent,} from 'vue'
+export default defineComponent({
   props:{
     message:String,
     id:String,
@@ -38,7 +38,7 @@ export default {
       messageRef
     }
   }
-}
+})
 </script>
 
 <style>

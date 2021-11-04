@@ -14,10 +14,11 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { ref } from '@vue/reactivity'
+import { defineComponent } from '@vue/runtime-core'
 
-export default {
+export default defineComponent({
   name:'Header',
   setup(_,context){
     const isShow=ref(false)
@@ -34,7 +35,7 @@ export default {
       gotoHome,isShow,isShowTrue,isShowFalse
     }
   }
-}
+})
 </script>
 
 <style scoped>

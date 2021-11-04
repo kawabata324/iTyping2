@@ -4,11 +4,11 @@
     <router-view />
   </div>
 </template>
-<script>
-import Header from "@/components/common/Header.vue";
+<script lang="ts">
+import Header from "./components/common/Header.vue";
+import { defineComponent } from "@vue/runtime-core";
 import { useRouter } from 'vue-router';
-
-export default {
+export default defineComponent({
   name: "App",
   components: {
     Header,
@@ -22,7 +22,7 @@ export default {
       gotoHome
     }
   }
-};
+});
 </script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@100&family=Zen+Old+Mincho&display=swap');
