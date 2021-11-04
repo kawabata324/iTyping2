@@ -24,4 +24,10 @@ export default {
   }
 };
 </script>
-<style></style>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@100&family=Zen+Old+Mincho&display=swap');
+  #nav{
+    font-family: 'Lato', sans-serif;
+    font-family: 'Zen Old Mincho', serif
+  }
+</style>

@@ -1,6 +1,6 @@
 <template>
   <div class="game">
-    <div class=" bg-black h-screen text-white text-sm ">
+    <div class=" bg-black min-h-screen text-white text-sm ">
       <div class="text-white">
         <span class="text-green-500">Typinguser@TypingusernoMacBookMax</span>
         <span>:</span>
@@ -14,6 +14,7 @@
             v-model="inputCommandRef"
             @keydown.enter="Useranswer"
             autocomplete="off"
+            v-focus
             id="command"
           />
         </div>
@@ -24,13 +25,10 @@
           {{ TypingCommandRef }}
         </p>
         <p v-show="clearGameRef">
-          {{ messages.message1 }}<span class="text-blue-500">{{ messages.message2 }}</span
-          >{{ messages.message3 }}
+          {{ ClearmessageRef }}
         </p>
-        <p>
-          <span class="text-blue-500 mr-6">Your Clear Command Count:</span
-          >{{ ClearCountRef }}/{{ TypingCommands.length }}
-        </p>
+        <span class="text-blue-500 mr-6">Your Clear Command Count:</span
+        >{{ ClearCountRef }}/{{ TypingCommands.length }}
         <p><span class="text-purple-500 mr-6">Timer:</span>{{ TimerRef }}</p>
         <pre>
 
@@ -42,9 +40,12 @@
 </template>
 <script>
 import { reactive, ref } from "@vue/reactivity";
-import { onMounted } from "@vue/runtime-core";
+import { onMounted, watchEffect, watch } from "@vue/runtime-core";
+import { useRouter } from "vue-router";
+
 export default {
   setup() {
+    const router = useRouter();
     let IntervalId = ref("");
     let ClearCountRef = ref(0);
     let TimerRef = ref(0);
@@ -53,15 +54,11 @@ export default {
     const inputCommandRef = ref("");
     const collectCommand = ref(true);
     let PathRef = ref("~/TypingGame");
-    let messages = reactive({
-      message1:"",
-      message2:"",
-      message3:""
-    })
+    let ClearmessageRef = ref("");
     let ResponsemsgRef = ref("");
     let TypingCommands = reactive([
-      { id: 1, name: "cd ~" },
-      { id: 2, name: "git status" },
+      // { id: 1, name: "cd ~" },
+      // { id: 2, name: "git status" },
       { id: 3, name: "git add ." },
       // { id: 4, name: "git commit -m 'comment'" },
       // { id: 5, name: "git checkout -b branchName" },
@@ -80,33 +77,13 @@ export default {
       // { id: 18, name: "code ." },
       // { id: 19, name: "vue create typing-game" },
     ]);
-    let CopyCommands = reactive([
-      { id: 1, name: "cd ~" },
-      { id: 2, name: "git status" },
-      { id: 3, name: "git add ." },
-      { id: 4, name: "git commit -m 'comment'" },
-      { id: 5, name: "git checkout -b branchName" },
-      { id: 6, name: "git fetch" },
-      { id: 7, name: "git pull origin develop" },
-      { id: 8, name: "git branch -a" },
-      { id: 9, name: "git push origin branchName" },
-      { id: 10, name: "yarn serve" },
-      { id: 11, name: "npm run serve" },
-      { id: 12, name: "mkdir directoryName" },
-      { id: 13, name: "git diff" },
-      { id: 14, name: "git fetch --prune" },
-      { id: 15, name: "git branch -d branchName" },
-      { id: 16, name: "git merge develop" },
-      { id: 17, name: "pwd" },
-      { id: 18, name: "code ." },
-      { id: 19, name: "vue create typing-game" },
-    ]);
+    let CopyCommands = reactive([...TypingCommands]);
 
     const RandomCommand = () => {
       if (!TypingCommands.length) {
         TypingCommandRef.value = "TypingGame successfully !";
-        typeWriter();
         clearGameRef.value = true;
+        typeWriter();
         clearInterval(IntervalId);
         return;
       }
@@ -138,21 +115,11 @@ export default {
     };
     const typeWriter = () => {
       let i = 0;
-      let i2 = 0;
-      let i3 = 0;
       setInterval(() => {
-        let message = "If you want to end game , You type '";
-        let message2 = "cd commandExplanation";
-        let message3 = "' after $ and press enter.";
+        let message = `If you want to end game , You type 'cd commandExplanation' after $ and press enter.`;
         if (i < message.length) {
-          messages.message1 += message.charAt(i);
+          ClearmessageRef.value += message.charAt(i);
           i++;
-        } else if (i2 < message2.length) {
-          messages.message2 += message2.charAt(i2);
-          i2++;
-        } else if (i3 < message3.length) {
-          messages.message3 += message3.charAt(i3);
-          i3++;
         }
       }, 100);
     };
@@ -205,7 +172,7 @@ To https://github.com/kawabata324/iTyping2.git
       if (id === 8) {
         ResponsemsgRef.value = `
   develop
-* main
+  main
   remotes/origin/develop
   remotes/origin/main`;
       }
@@ -229,8 +196,8 @@ DONE  Compiled successfully in 3307ms
       if (id === 12) {
         ResponsemsgRef.value = ``;
       }
-        if (id === 13) {
-          ResponsemsgRef = `diff --git a/src/router/index.js b/src/router/index.js
+      if (id === 13) {
+        ResponsemsgRef = `diff --git a/src/router/index.js b/src/router/index.js
   index 12a3ef3..0c9b5a7 100644
   --- a/src/router/index.js
   +++ b/src/router/index.js
@@ -261,9 +228,9 @@ DONE  Compiled successfully in 3307ms
         </div>
       </div>
   @@ -179,6 +180,13 @@ rewrite src/views/Game.vue (79%)`;
-        }
-      if(id===14){
-        ResponsemsgRef.value=` - [deleted]         (none)     -> origin/feature/chart.js_test
+      }
+      if (id === 14) {
+        ResponsemsgRef.value = ` - [deleted]         (none)     -> origin/feature/chart.js_test
 - [deleted]         (none)     -> origin/feature/
 - [deleted]         (none)     -> origin/hotfirqqrqrqq2
 - [deleted]         (none)     -> origin/setup-testing
@@ -276,18 +243,18 @@ Unpacking objects: 100% (27/27), 69.18 KiB | 1.15 MiB/s, done.
   a2a22rr..8erwwrr  main       -> origin/main
   a2r3q3r..8e321d6  prod       -> origin/prod
  * [new tag]         4.0.0.2    -> 4.0.0.2
- * [new tag]         4.0.0.1    -> 4.0.0.1`
+ * [new tag]         4.0.0.1    -> 4.0.0.1`;
       }
-      if(id === 15){
-        ResponsemsgRef.value=`Deleted branch branchName (was 21393434)`
+      if (id === 15) {
+        ResponsemsgRef.value = `Deleted branch branchName (was 21393434)`;
       }
-      if(id===16){
-        ResponsemsgRef.value=` src/router/index.js              |   5 +++++
+      if (id === 16) {
+        ResponsemsgRef.value = ` src/router/index.js              |   5 +++++
 src/views/CommandExplanation.vue |  59 ++++++++++++++++++++++++++++++++++++++++++++++++++
 src/views/Game.vue               | 195 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-----------------------------------
 src/views/Home.vue               |  40 ++++++++++++++++------------------
 4 files changed, 236 insertions(+), 63 deletions(-)
-create mode 100644 src/views/CommandExplanation.vue`
+create mode 100644 src/views/CommandExplanation.vue`;
       }
       if (id === 17) {
         if (PathRef.value === "~/TypingGame") {
@@ -297,15 +264,71 @@ create mode 100644 src/views/CommandExplanation.vue`
           ResponsemsgRef.value = `/Users/TypingUser`;
         }
       }
-      if (id == 18) {
+      if (id === 18) {
         ResponsemsgRef.value = ``;
+      }
+      if (id === 19) {
+        ResponsemsgRef.value = `Vue CLI v4.5.14
+✨  Creating project in /Users/kawabataharuki/Documents/code/Vue3Practice/test.
+🗃  Initializing git repository...
+⚙️  Installing CLI plugins. This might take a while...
+added 1285 packages, and audited 1286 packages in 1m
+83 packages are looking for funding
+  run 'npm fund' for details
+
+43 vulnerabilities (18 moderate, 25 high)
+
+To address issues that do not require attention, run:
+  npm audit fix
+
+To address all issues possible (including breaking changes), run:
+  npm audit fix --force
+
+Some issues need review, and may require choosing
+a different dependency.
+
+Run 'npm audit' for details.
+🚀  Invoking generators...
+📦  Installing additional dependencies...
+added 67 packages, and audited 1353 packages in 8s
+
+90 packages are looking for funding
+  run 'npm fund' for details
+
+45 vulnerabilities (20 moderate, 25 high)
+
+To address issues that do not require attention, run:
+  npm audit fix
+
+To address all issues possible (including breaking changes), run:
+  npm audit fix --force
+
+Some issues need review, and may require choosing
+a different dependency.
+
+Run 'npm audit' for details.
+⚓  Running completion hooks...
+📄  Generating README.md...
+🎉  Successfully created project typing-game.
+👉  Get started with the following commands:`;
       }
     };
     onMounted(() => {
       RandomCommand();
-      // IntervalId=setInterval(CountUp,1000)
+      IntervalId = setInterval(CountUp, 1000);
     });
-    //clearGamerefがtrueだったらcommand入力したら飛ぶようにするメソッド作る
+    watchEffect(() => {
+      if (clearGameRef.value) {
+        if (inputCommandRef.value === "cd commandExplanation") {
+          router.push("/command");
+        }
+      }
+    });
+    watch(inputCommandRef, () => {
+      const audio = new Audio(require("@/assets/sounds/nc159115.mp3"));
+      audio.currentTime = 0;
+      audio.play();
+    });
     return {
       Useranswer,
       inputCommandRef,
@@ -318,12 +341,12 @@ create mode 100644 src/views/CommandExplanation.vue`
       CountUp,
       IntervalId,
       clearGameRef,
-      typeWriter,
       ResponsemsgRef,
       changeResponsemsg,
       CopyCommands,
       PathRef,
-      messages
+      ClearmessageRef,
+      typeWriter,
     };
   },
 };
