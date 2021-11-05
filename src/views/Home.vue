@@ -11,6 +11,7 @@
             type="text"
             class="bg-black flex-1"
             v-model="inputCommandRef"
+            @keydown="keyType"
             @keydown.enter="Useranswer"
             autocomplete="off"
             v-focus
@@ -20,7 +21,7 @@
         <p v-show="!collectCommand" class="text-red-500">
           Error:Please type 'cd TypingGame'
         </p>
-        <TypeWriter class="whitespace-pre" :message="messageRef" id=1 />
+        <TypeWriter class="whitespace-pre" :message="messageRef" id="1" />
       </div>
     </div>
   </div>
@@ -29,23 +30,26 @@
 <script lang="ts">
 import { ref } from "@vue/reactivity";
 import { useRouter } from "vue-router";
-import { defineComponent, watch } from "@vue/runtime-core";
-import TypeWriter from "../components/common/TypeWriter.vue"
+import { defineComponent } from "@vue/runtime-core";
+import TypeWriter from "../components/common/TypeWriter.vue";
+import { Howl } from "howler";
+
 export default defineComponent({
   name: "Home",
-  components:{
-    TypeWriter
+  components: {
+    TypeWriter,
   },
   setup() {
-    // const musicPath=require('@/assets/sounds/nc159115.mp3')
     const router = useRouter();
+
     const inputCommandRef = ref("");
     const messageRef = ref(`
     Hello World! Welcome to TypingGame.
     You can type faster and learn command
     If you want to start the game , You type 'cd TypingGame' after $ and press enter.
-    `)
+    `);
     const collectCommand = ref(true);
+
     const Useranswer = () => {
       if (inputCommandRef.value === "cd TypingGame") {
         router.push("/game");
@@ -53,16 +57,24 @@ export default defineComponent({
         collectCommand.value = false;
       }
     };
-    watch(inputCommandRef,()=>{
-      // const audio=new Audio('../assets/sounds/nc159115.mp3')
-      // audio.currentTime=0
-      // audio.play()
-    })
+
+    // watch(inputCommandRef,()=>{
+    //   const sound = new Howl({src:["../src/assets/sounds/nc159115.mp3"],});
+    //   sound.load()
+    //   sound.play();
+    // })
+    const keyType = () => {
+      const sound = new Howl({ src: ["../src/assets/sounds/nc159115.mp3"] });
+      sound.play();
+      sound.stop();
+    };
+    
     return {
       Useranswer,
       inputCommandRef,
       collectCommand,
       messageRef,
+      keyType,
     };
   },
 });

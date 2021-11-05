@@ -40,30 +40,41 @@
 </template>
 <script lang="ts">
 import { reactive, ref } from "@vue/reactivity";
-import { onMounted, watchEffect, watch, defineComponent } from "@vue/runtime-core";
+import {
+  onMounted,
+  watchEffect,
+  watch,
+  defineComponent,
+} from "@vue/runtime-core";
 import { useRouter } from "vue-router";
+import { Howl } from "howler";
 
 export default defineComponent({
   setup() {
+    let IntervalId = 0;
+
     const router = useRouter();
-    let IntervalId = ref(null);
+
     let ClearCountRef = ref(0);
     let TimerRef = ref(0);
+
     let clearGameRef = ref(false);
     const TypingCommandRef = ref("");
     const inputCommandRef = ref("");
     const collectCommand = ref(true);
+
     let PathRef = ref("~/TypingGame");
     let ClearmessageRef = ref("");
     let ResponsemsgRef = ref("");
+
     let TypingCommands = reactive([
       // { id: 1, name: "cd ~" },
       // { id: 2, name: "git status" },
       { id: 3, name: "git add ." },
-      // { id: 4, name: "git commit -m 'comment'" },
-      // { id: 5, name: "git checkout -b branchName" },
-      // { id: 6, name: "git fetch" },
-      // { id: 7, name: "git pull origin develop" },
+      { id: 4, name: "git commit -m 'comment'" },
+      { id: 5, name: "git checkout -b branchName" },
+      { id: 6, name: "git fetch" },
+      { id: 7, name: "git pull origin develop" },
       // { id: 8, name: "git branch -a" },
       // { id: 9, name: "git push origin branchName" },
       // { id: 10, name: "yarn serve" },
@@ -77,42 +88,56 @@ export default defineComponent({
       // { id: 18, name: "code ." },
       // { id: 19, name: "vue create typing-game" },
     ]);
-    let CopyCommands = reactive([...TypingCommands]);
 
     const RandomCommand = () => {
       if (!TypingCommands.length) {
         TypingCommandRef.value = "TypingGame successfully !";
         clearGameRef.value = true;
+
         typeWriter();
         clearInterval(IntervalId);
         return;
       }
+
+      // ランダムなコマンドの生成
       const randomIndex = Math.floor(Math.random() * TypingCommands.length);
       const randomCommand = TypingCommands[randomIndex];
-      TypingCommands = TypingCommands.filter(
-        (TypingCommand) => TypingCommand !== randomCommand
-      );
+
+      // ランダムコマンドを表示する
       TypingCommandRef.value = randomCommand.name;
     };
+
     const Useranswer = () => {
       if (inputCommandRef.value === TypingCommandRef.value) {
-        let selectCommand = CopyCommands.find(
-          (CopyCommand) => CopyCommand.name === inputCommandRef.value
+
+        //本来の最初のコマンドと一致するinputCommandをセレクトコマンド変数にする
+        let selectCommand = TypingCommands.find(
+          (TypingCommand) => TypingCommand.name === inputCommandRef.value
         );
-        changeResponsemsg(selectCommand.id);
+
+        if (selectCommand !== undefined) {
+          changeResponsemsg(selectCommand.id);
+        }
+
+      TypingCommands = TypingCommands.filter(
+        (TypingCommand) => TypingCommand !== selectCommand
+      );
+
+      // 初期化
         RandomCommand();
         inputCommandRef.value = "";
+
         ClearCountRef.value++;
+
         collectCommand.value = true;
+
       } else {
         collectCommand.value = false;
         inputCommandRef.value = "";
         return;
       }
     };
-    const CountUp = () => {
-      TimerRef.value++;
-    };
+
     const typeWriter = () => {
       let i = 0;
       setInterval(() => {
@@ -123,7 +148,8 @@ export default defineComponent({
         }
       }, 100);
     };
-    const changeResponsemsg = (id) => {
+
+    const changeResponsemsg = (id: number) => {
       if (id === 1) {
         PathRef.value = "~";
         ResponsemsgRef.value = "";
@@ -313,22 +339,29 @@ Run 'npm audit' for details.
 👉  Get started with the following commands:`;
       }
     };
+
     onMounted(() => {
       RandomCommand();
-      IntervalId = setInterval(CountUp, 1000);
+
+      IntervalId = window.setInterval(()=>{
+        TimerRef.value++
+      }, 1000);
     });
+
     watchEffect(() => {
       if (clearGameRef.value) {
+
         if (inputCommandRef.value === "cd commandExplanation") {
           router.push("/command");
         }
       }
     });
+
     watch(inputCommandRef, () => {
-      // const audio = new Audio(import("@/assets/sounds/nc159115.mp3"));
-      // audio.currentTime = 0;
-      // audio.play();
+      const audio = new Howl({ src: "@/assets/sounds/nc159115.mp3" });
+      audio.play();
     });
+    
     return {
       Useranswer,
       inputCommandRef,
@@ -338,12 +371,9 @@ Run 'npm audit' for details.
       collectCommand,
       ClearCountRef,
       TimerRef,
-      CountUp,
-      IntervalId,
       clearGameRef,
       ResponsemsgRef,
       changeResponsemsg,
-      CopyCommands,
       PathRef,
       ClearmessageRef,
       typeWriter,

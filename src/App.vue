@@ -1,6 +1,6 @@
 <template>
   <div id="nav">
-    <Header @red-btn-click='gotoHome'/>
+    <Header @red-btn-click='gotoHome' class=""/>
     <router-view />
   </div>
 </template>
@@ -28,6 +28,6 @@ export default defineComponent({
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@100&family=Zen+Old+Mincho&display=swap');
   #nav{
     font-family: 'Lato', sans-serif;
-    font-family: 'Zen Old Mincho', serif
+    font-family: 'Zen Old Mincho', serif;
   }
 </style>

@@ -30,7 +30,8 @@
 
 <script lang="ts">
 import { reactive } from '@vue/reactivity'
-export default {
+import { defineComponent } from '@vue/runtime-core'
+export default defineComponent({
   setup(){
     let commands=reactive([
       { id: 1, name: "cd ~",explain:'ディレクトリの移動' },
@@ -57,7 +58,7 @@ export default {
       commands
     }
   }
-}
+})
 </script>
 
 <style scoped>
